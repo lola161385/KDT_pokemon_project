@@ -1,7 +1,6 @@
 package pokemon;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 public class Main {
     public static void main(String[] args) {
@@ -10,8 +9,9 @@ public class Main {
             HealingCenter healingCenter = new HealingCenter("태초마을 포켓몬 센터");
 
             // 1. 트레이너 생성
-            Trainer trainer1 = new Trainer("이슬", false, true);
-            Trainer trainer2 = new Trainer("지우", true, false);
+            Trainer trainer1 = new Trainer("이슬", false, false);
+            Trainer trainer2 = new Trainer("지우", true, true); // 성별 수정
+            Trainer trainer3 = new Trainer("웅이", false, true);
 
             // 2. 스킬 생성
             Skill thunderbolt = new BattleSkill("백만볼트", 90, "백만볼트의 전류를 방출");
@@ -50,6 +50,7 @@ public class Main {
             trainer1.addPokemon(pikachu1); // Trainer 클래스의 addPokemon 메서드 사용
             trainer1.addPokemon(lizard1);  // Trainer 클래스의 addPokemon 메서드 사용
             trainer2.addPokemon(lizard2);
+            trainer3.addPokemon(arseous);
 
             // 트레이너 정보 출력
             System.out.println("\n========================================");
@@ -60,6 +61,20 @@ public class Main {
             System.out.println("\n========================================");
             System.out.println(trainer1.getPcPokemon());
             System.out.println(trainer2.getPcPokemon());
+
+            // 트레이너와 포켓몬 교환
+            Scanner myInput = new Scanner(System.in);
+            System.out.print("교환할 트레이너 이름을 입력하세요 : ");
+            String choiceTrainer = myInput.nextLine();
+            ArrayList<Trainer> trainers = new ArrayList<>();
+            trainers.add(trainer1);
+            trainers.add(trainer2);
+            trainers.add(trainer3);
+            for (Trainer trainer : trainers) {
+                if (Objects.equals(choiceTrainer, trainer.getName())) {
+                    trainer1.tradePokemon(trainer);   // 기본적으로 접속유저는 트레이너1 로 생각함
+                }
+            }
 
             // 포켓몬이 기술 사용 (전투 상황)
             System.out.println("\n=== 전투 상황 ===");
@@ -105,7 +120,7 @@ public class Main {
             System.out.println("\n=== 다른 마을로 이동 ===");
             trainer1.moveToAnotherTown(pikachu1, "파도타기");
 
-        } catch (Exception e){
+        } catch (Exception e) {
             System.err.println(e.getMessage());
             e.printStackTrace();
         }

@@ -7,6 +7,7 @@ public class Trainer {
     String name;
     boolean isGymLeader;
     boolean gender; // true = 남자, false = 여자
+    String nowLocation ="관동지방";
 
     ArrayList<Pokemon> myPokemon;   // 트레이너가 소지하고있는 포켓몬
     ArrayList<Pokemon> myPokemonPc; // 트레이너의 포켓몬이 꽉차면 저장할 PC 창고
@@ -141,12 +142,36 @@ public class Trainer {
             pokemon.levelUp(); // 포켓몬 레벨 업
         }
     }
-
     // 다른 마을로 이동하는 메서드
     public void moveToAnotherTown(Pokemon pokemon, String skillName) {
         Skill skill = pokemon.getSkill(skillName);
+
         if (skill instanceof VisionSkill && ((VisionSkill) skill).canCrossOcean()) {
-            System.out.println(pokemon.name + "이(가) " + skillName + "을(를) 사용하여 다른 마을로 이동합니다!");
+            Scanner myInput = new Scanner(System.in);
+
+            // 사용자로부터 마을 이름 입력 받기
+            System.out.print("현재위치: " +nowLocation + "\n이동할 마을을 입력하세요: ");
+            String townName = myInput.nextLine(); // townName에 이동할 마을 저장
+
+            try {
+                // 입력된 문자열을 enum 값으로 변환
+                Location.TownNames selectedTown = Location.TownNames.fromString(townName);
+                // 매핑 해둔 enum 값으로 변환한ㄴ다.
+
+                // 변환된 enum 값을 사용
+                System.out.println(pokemon.name + "이(가) " + skillName + "을(를) 사용하여 " +
+                                    nowLocation +"에서 "+ selectedTown + "으로 이동합니다!");
+
+
+                // Location 클래스에 트레이너 위치 저장 (예시)
+                Location location = new Location();
+                location.setTrainerLocation(selectedTown);
+                if(selectedTown.equals("달맞이동산")){
+                    PokeEvolution.ArriveEvolve(this);
+                }
+            } catch (IllegalArgumentException e) {
+                System.out.println("잘못된 마을 이름입니다: " + townName);
+            }
         } else {
             System.out.println(pokemon.name + "은(는) " + skillName + "을(를) 사용할 수 없습니다.");
         }

@@ -43,10 +43,15 @@ public class Trainer {
         System.out.print("교환할 상대의 포켓몬 번호 : ");
         int yourChoiceNum = myInput.nextInt();
         if (myChoiceNum > 0 && yourChoiceNum > 0 && myChoiceNum < myPokemon.size() + 1 && yourChoiceNum < trainer.myPokemon.size() + 1) {
-            System.out.println(this.getName() + " 의 " + myPokemon.get(myChoiceNum-1).name + " 는(은) " + trainer.myPokemon.get(myChoiceNum-1).name + " 로 교환되었다!");
+            System.out.println(this.getName() + " 의 " + myPokemon.get(myChoiceNum-1).name + " 는(은) " + trainer.myPokemon.get(yourChoiceNum-1).name + " 로 교환되었다!");
             Pokemon tmpPokemon = myPokemon.get(myChoiceNum - 1); // 내 포켓몬을 임시저장
             myPokemon.set(myChoiceNum - 1, trainer.myPokemon.get(yourChoiceNum - 1)); // 내 포켓몬을 상대 포켓몬으로 변경
             trainer.myPokemon.set(yourChoiceNum - 1, tmpPokemon); // 상대 포켓몬을 내 포켓몬으로 변경
+
+            System.out.println("\n======== 교환 후 포켓몬 정보 ========");
+            System.out.println(this.toString());
+            System.out.println(trainer.toString());
+            System.out.println("=================================");
         } else {
             System.out.println("잘못된 입력입니다.");
         }
@@ -71,6 +76,7 @@ public class Trainer {
     }
 
     // Trainer 정보 출력
+    @Override
     public String toString() {
         int pcnt = 1;
         StringBuilder sb = new StringBuilder();

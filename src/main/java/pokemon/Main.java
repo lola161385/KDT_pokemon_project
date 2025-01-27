@@ -56,11 +56,13 @@ public class Main {
             System.out.println("\n========================================");
             System.out.println(trainer1.toString());
             System.out.println(trainer2.toString());
+            System.out.println(trainer3.toString());
 
             // PC에 저장된 포켓몬 출력
             System.out.println("\n========================================");
             System.out.println(trainer1.getPcPokemon());
             System.out.println(trainer2.getPcPokemon());
+            System.out.println(trainer3.getPcPokemon());
 
             // 트레이너와 포켓몬 교환
             Scanner myInput = new Scanner(System.in);

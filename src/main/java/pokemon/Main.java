@@ -52,10 +52,13 @@ public class Main {
             Pokemon lizard2 = new Pokemon("리자드", Pokedex.PokedexData.getTypes("리자드"), Pokedex.PokedexData.getCategory("리자드"), lizardSkills, 30, 300);
             Pokemon arseous = new Pokemon("아르세우스", Pokedex.PokedexData.getTypes("아르세우스"), Pokedex.PokedexData.getCategory("아르세우스"), arseousSkills, 100, 1000);
             Pokemon purin1 = new Pokemon("푸린", Pokedex.PokedexData.getTypes("푸린"), Pokedex.PokedexData.getCategory("푸린"), purinSkills, 41 ,410);
+            Pokemon ghost = new Pokemon("고스트", Pokedex.PokedexData.getTypes("고스트"), Pokedex.PokedexData.getCategory("고스트"), purinSkills, 41 ,410);
+
             // 4. 트레이너가 포켓몬 소유
             trainer1.addPokemon(pikachu1); // Trainer 클래스의 addPokemon 메서드 사용
             trainer1.addPokemon(lizard1);  // Trainer 클래스의 addPokemon 메서드 사용
             trainer1.addPokemon(purin1);
+            trainer1.addPokemon(ghost);
             trainer2.addPokemon(lizard2);
             trainer3.addPokemon(arseous);
 

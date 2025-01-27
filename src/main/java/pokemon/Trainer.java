@@ -38,17 +38,36 @@ public class Trainer {
 
     public void tradePokemon(Trainer trainer) {
         Scanner myInput = new Scanner(System.in);
-        // to String 을 오버라이딩하여 나와 상대의 포켓몬을 보여주는것이 좋아보임
+
+        // 교환할 나의 포켓몬 번호 입력
         System.out.print("교환할 나의 포켓몬 번호 : ");
         int myChoiceNum = myInput.nextInt();
+
+        // 교환할 상대의 포켓몬 번호 입력
         System.out.print("교환할 상대의 포켓몬 번호 : ");
         int yourChoiceNum = myInput.nextInt();
-        if (myChoiceNum > 0 && yourChoiceNum > 0 && myChoiceNum < myPokemon.size() + 1 && yourChoiceNum < trainer.myPokemon.size() + 1) {
-            System.out.println(this.getName() + " 의 " + myPokemon.get(myChoiceNum-1).name + " 는(은) " + trainer.myPokemon.get(yourChoiceNum-1).name + " 로 교환되었다!");
-            Pokemon tmpPokemon = myPokemon.get(myChoiceNum - 1); // 내 포켓몬을 임시저장
-            myPokemon.set(myChoiceNum - 1, trainer.myPokemon.get(yourChoiceNum - 1)); // 내 포켓몬을 상대 포켓몬으로 변경
-            trainer.myPokemon.set(yourChoiceNum - 1, tmpPokemon); // 상대 포켓몬을 내 포켓몬으로 변경
 
+        // 유효한 번호인지 확인
+        if (myChoiceNum > 0 && yourChoiceNum > 0 && myChoiceNum <= myPokemon.size() && yourChoiceNum <= trainer.myPokemon.size()) {
+            Pokemon myPokemonToTrade = myPokemon.get(myChoiceNum - 1); // 내 포켓몬
+            Pokemon yourPokemonToTrade = trainer.myPokemon.get(yourChoiceNum - 1); // 상대 포켓몬
+
+            // 교환 메시지 출력
+            System.out.println(this.getName() + " 의 " + myPokemonToTrade.name + " 는(은) " + yourPokemonToTrade.name + " 로 교환되었다!");
+
+            // 포켓몬 교환
+            myPokemon.set(myChoiceNum - 1, yourPokemonToTrade); // 내 포켓몬을 상대 포켓몬으로 변경
+            trainer.myPokemon.set(yourChoiceNum - 1, myPokemonToTrade); // 상대 포켓몬을 내 포켓몬으로 변경
+
+            // 교환 후 포켓몬의 카테고리가 "통신교환"인지 확인
+            if (Pokedex.PokedexData.getCategory(myPokemonToTrade.name).equals("통신교환")) {
+                PokeEvolution.checkAndEvolve(myPokemonToTrade); // 진화 시도
+            }
+            if (Pokedex.PokedexData.getCategory(yourPokemonToTrade.name).equals("통신교환")) {
+                PokeEvolution.checkAndEvolve(yourPokemonToTrade); // 진화 시도
+            }
+
+            // 교환 후 포켓몬 정보 출력
             System.out.println("\n======== 교환 후 포켓몬 정보 ========");
             System.out.println(this.toString());
             System.out.println(trainer.toString());

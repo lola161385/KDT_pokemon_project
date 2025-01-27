@@ -6,12 +6,23 @@ public class PokeEvolution {
         Pokedex pokedexData = Pokedex.PokedexData.getPokemon(pokemon.name);
         if (pokedexData.getCategory().equals("달")) {
             System.out.printf("진화조건 불충족 진화뷸가");
-        }else {
+        } else {
             if (pokedexData != null && pokemon.level >= pokedexData.getEvolvLevel() && !pokedexData.getNextEvolv().equals("최종 진화 단계")) {
                 evolve(pokemon, pokedexData.getNextEvolv());
             }
         }
+    }
 
+    public static void teleEvolve(Pokemon pokemon) {
+        Pokedex pokedexData = Pokedex.PokedexData.getPokemon(pokemon.name);
+        if (pokedexData != null) {
+            // 카테고리가 "통신교환"인 경우 레벨에 상관없이 진화
+            if (pokedexData.getCategory().equals("통신교환")) {
+                evolve(pokemon, pokedexData.getNextEvolv());
+            } else if (pokemon.level >= pokedexData.getEvolvLevel() && !pokedexData.getNextEvolv().equals("최종 진화 단계")) {
+                evolve(pokemon, pokedexData.getNextEvolv());
+            }
+        }
     }
 
     // 달맞이 동산에 도착했을 때 달 속성 포켓몬 진화 처리

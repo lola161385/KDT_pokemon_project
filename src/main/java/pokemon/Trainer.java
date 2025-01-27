@@ -98,6 +98,25 @@ public class Trainer {
         return sb.toString();
     }
 
+    // 소유 포켓몬 정보만 출력
+    public String getOwnedPokemonInfo() {
+        int pcnt = 1;
+        StringBuilder sb = new StringBuilder();
+        sb.append("=== ").append(this.name).append("의 포켓몬 목록 ===");
+        if (myPokemon.isEmpty()) {
+            sb.append("\n보유한 포켓몬이 없습니다.");
+        } else {
+            for (Pokemon pokemon : myPokemon) {
+                sb.append("\n").append(pcnt++).append(". ").append(pokemon.name)
+                        .append(", 레벨: ").append(pokemon.level)
+                        .append(", HP: ").append(pokemon.hp)
+                        .append(", 보유 스킬: ").append(pokemon.getSkillNames());
+            }
+        }
+        return sb.toString();
+    }
+
+
     // 전투 시작 메서드
     public void startBattle(Trainer opponent) {
         Battle.start(this, opponent);

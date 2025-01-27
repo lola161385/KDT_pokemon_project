@@ -66,6 +66,7 @@ public class Main {
 
             // 트레이너와 포켓몬 교환
             Scanner myInput = new Scanner(System.in);
+            System.out.println("\n[ 교환 가능한 트레이너: " + trainer2.name + ", " + trainer3.name + " ]");
             System.out.print("교환할 트레이너 이름을 입력하세요 : ");
             String choiceTrainer = myInput.nextLine();
             ArrayList<Trainer> trainers = new ArrayList<>();
@@ -74,6 +75,8 @@ public class Main {
             trainers.add(trainer3);
             for (Trainer trainer : trainers) {
                 if (Objects.equals(choiceTrainer, trainer.getName())) {
+                    System.out.println(trainer1.getOwnedPokemonInfo()); // 내 포켓몬 목록
+                    System.out.println(trainer.getOwnedPokemonInfo()); // 선택한 트레이너의 포켓몬 목록
                     trainer1.tradePokemon(trainer);   // 기본적으로 접속유저는 트레이너1 로 생각함
                 }
             }

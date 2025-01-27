@@ -141,6 +141,9 @@ public class Trainer {
                 // Location 클래스에 트레이너 위치 저장 (예시)
                 Location location = new Location();
                 location.setTrainerLocation(selectedTown);
+                if(selectedTown.equals("달맞이동산")){
+                    PokeEvolution.ArriveEvolve(this);
+                }
             } catch (IllegalArgumentException e) {
                 System.out.println("잘못된 마을 이름입니다: " + townName);
             }

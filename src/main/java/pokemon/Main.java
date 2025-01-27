@@ -1,7 +1,6 @@
 package pokemon;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 public class Main {
     public static void main(String[] args) {
@@ -10,8 +9,9 @@ public class Main {
             HealingCenter healingCenter = new HealingCenter("태초마을 포켓몬 센터");
 
             // 1. 트레이너 생성
-            Trainer trainer1 = new Trainer("이슬", false, true);
-            Trainer trainer2 = new Trainer("지우", true, false);
+            Trainer trainer1 = new Trainer("이슬", false, false);
+            Trainer trainer2 = new Trainer("지우", true, true); // 성별 수정
+            Trainer trainer3 = new Trainer("웅이", false, true);
 
             // 2. 스킬 생성
             Skill thunderbolt = new BattleSkill("백만볼트", 90, "백만볼트의 전류를 방출");
@@ -41,25 +41,52 @@ public class Main {
             arseousSkills.put("몸통박치기", bodyAttack);
             arseousSkills.put("바위깨기", stoneBrake);
 
+            Map<String, Skill> purinSkills = new HashMap<>();
+            purinSkills.put("용의숨결", dragonBreath);
+            purinSkills.put("화염자동차", firecar);
+            purinSkills.put("몸통박치기", bodyAttack);
+            purinSkills.put("바위깨기", stoneBrake);
+
             Pokemon pikachu1 = new Pokemon("피카츄", Pokedex.PokedexData.getTypes("피카츄"), Pokedex.PokedexData.getCategory("피카츄"), pikachuSkills, 45, 450);
             Pokemon lizard1 = new Pokemon("리자드", Pokedex.PokedexData.getTypes("리자드"), Pokedex.PokedexData.getCategory("리자드"), lizardSkills, 79, 790);
             Pokemon lizard2 = new Pokemon("리자드", Pokedex.PokedexData.getTypes("리자드"), Pokedex.PokedexData.getCategory("리자드"), lizardSkills, 30, 300);
             Pokemon arseous = new Pokemon("아르세우스", Pokedex.PokedexData.getTypes("아르세우스"), Pokedex.PokedexData.getCategory("아르세우스"), arseousSkills, 100, 1000);
-
+            Pokemon purin1 = new Pokemon("푸린", Pokedex.PokedexData.getTypes("푸린"), Pokedex.PokedexData.getCategory("푸린"), purinSkills, 41 ,410);
             // 4. 트레이너가 포켓몬 소유
             trainer1.addPokemon(pikachu1); // Trainer 클래스의 addPokemon 메서드 사용
             trainer1.addPokemon(lizard1);  // Trainer 클래스의 addPokemon 메서드 사용
+            trainer1.addPokemon(purin1);
             trainer2.addPokemon(lizard2);
+            trainer3.addPokemon(arseous);
 
             // 트레이너 정보 출력
             System.out.println("\n========================================");
             System.out.println(trainer1.toString());
             System.out.println(trainer2.toString());
+            System.out.println(trainer3.toString());
 
             // PC에 저장된 포켓몬 출력
             System.out.println("\n========================================");
             System.out.println(trainer1.getPcPokemon());
             System.out.println(trainer2.getPcPokemon());
+            System.out.println(trainer3.getPcPokemon());
+
+            // 트레이너와 포켓몬 교환
+            Scanner myInput = new Scanner(System.in);
+            System.out.println("\n[ 교환 가능한 트레이너: " + trainer2.name + ", " + trainer3.name + " ]");
+            System.out.print("교환할 트레이너 이름을 입력하세요 : ");
+            String choiceTrainer = myInput.nextLine();
+            ArrayList<Trainer> trainers = new ArrayList<>();
+            trainers.add(trainer1);
+            trainers.add(trainer2);
+            trainers.add(trainer3);
+            for (Trainer trainer : trainers) {
+                if (Objects.equals(choiceTrainer, trainer.getName())) {
+                    System.out.println(trainer1.getOwnedPokemonInfo()); // 내 포켓몬 목록
+                    System.out.println(trainer.getOwnedPokemonInfo()); // 선택한 트레이너의 포켓몬 목록
+                    trainer1.tradePokemon(trainer);   // 기본적으로 접속유저는 트레이너1 로 생각함
+                }
+            }
 
             // 포켓몬이 기술 사용 (전투 상황)
             System.out.println("\n=== 전투 상황 ===");
@@ -105,7 +132,7 @@ public class Main {
             System.out.println("\n=== 다른 마을로 이동 ===");
             trainer1.moveToAnotherTown(pikachu1, "파도타기");
 
-        } catch (Exception e){
+        } catch (Exception e) {
             System.err.println(e.getMessage());
             e.printStackTrace();
         }

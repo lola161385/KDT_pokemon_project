@@ -1,11 +1,13 @@
 package pokemon;
 
 import java.util.ArrayList;
+import java.util.Scanner;
 
 public class Trainer {
     String name;
     boolean isGymLeader;
     boolean gender; // true = 남자, false = 여자
+    String nowLocation ="관동지방";
 
     ArrayList<Pokemon> myPokemon;   // 트레이너가 소지하고있는 포켓몬
     ArrayList<Pokemon> myPokemonPc; // 트레이너의 포켓몬이 꽉차면 저장할 PC 창고
@@ -34,6 +36,28 @@ public class Trainer {
         }
     }
 
+    public void tradePokemon(Trainer trainer) {
+        Scanner myInput = new Scanner(System.in);
+        // to String 을 오버라이딩하여 나와 상대의 포켓몬을 보여주는것이 좋아보임
+        System.out.print("교환할 나의 포켓몬 번호 : ");
+        int myChoiceNum = myInput.nextInt();
+        System.out.print("교환할 상대의 포켓몬 번호 : ");
+        int yourChoiceNum = myInput.nextInt();
+        if (myChoiceNum > 0 && yourChoiceNum > 0 && myChoiceNum < myPokemon.size() + 1 && yourChoiceNum < trainer.myPokemon.size() + 1) {
+            System.out.println(this.getName() + " 의 " + myPokemon.get(myChoiceNum-1).name + " 는(은) " + trainer.myPokemon.get(yourChoiceNum-1).name + " 로 교환되었다!");
+            Pokemon tmpPokemon = myPokemon.get(myChoiceNum - 1); // 내 포켓몬을 임시저장
+            myPokemon.set(myChoiceNum - 1, trainer.myPokemon.get(yourChoiceNum - 1)); // 내 포켓몬을 상대 포켓몬으로 변경
+            trainer.myPokemon.set(yourChoiceNum - 1, tmpPokemon); // 상대 포켓몬을 내 포켓몬으로 변경
+
+            System.out.println("\n======== 교환 후 포켓몬 정보 ========");
+            System.out.println(this.toString());
+            System.out.println(trainer.toString());
+            System.out.println("=================================");
+        } else {
+            System.out.println("잘못된 입력입니다.");
+        }
+    }
+
     // 트레이너 pc에 있는 포켓몬 출력
     public String getPcPokemon() {
         int pcnt = 1;
@@ -53,6 +77,7 @@ public class Trainer {
     }
 
     // Trainer 정보 출력
+    @Override
     public String toString() {
         int pcnt = 1;
         StringBuilder sb = new StringBuilder();
@@ -73,6 +98,25 @@ public class Trainer {
         }
         return sb.toString();
     }
+
+    // 소유 포켓몬 정보만 출력
+    public String getOwnedPokemonInfo() {
+        int pcnt = 1;
+        StringBuilder sb = new StringBuilder();
+        sb.append("=== ").append(this.name).append("의 포켓몬 목록 ===");
+        if (myPokemon.isEmpty()) {
+            sb.append("\n보유한 포켓몬이 없습니다.");
+        } else {
+            for (Pokemon pokemon : myPokemon) {
+                sb.append("\n").append(pcnt++).append(". ").append(pokemon.name)
+                        .append(", 레벨: ").append(pokemon.level)
+                        .append(", HP: ").append(pokemon.hp)
+                        .append(", 보유 스킬: ").append(pokemon.getSkillNames());
+            }
+        }
+        return sb.toString();
+    }
+
 
     // 전투 시작 메서드
     public void startBattle(Trainer opponent) {
@@ -98,12 +142,36 @@ public class Trainer {
             pokemon.levelUp(); // 포켓몬 레벨 업
         }
     }
-
     // 다른 마을로 이동하는 메서드
     public void moveToAnotherTown(Pokemon pokemon, String skillName) {
         Skill skill = pokemon.getSkill(skillName);
+
         if (skill instanceof VisionSkill && ((VisionSkill) skill).canCrossOcean()) {
-            System.out.println(pokemon.name + "이(가) " + skillName + "을(를) 사용하여 다른 마을로 이동합니다!");
+            Scanner myInput = new Scanner(System.in);
+
+            // 사용자로부터 마을 이름 입력 받기
+            System.out.print("현재위치: " +nowLocation + "\n이동할 마을을 입력하세요: ");
+            String townName = myInput.nextLine(); // townName에 이동할 마을 저장
+
+            try {
+                // 입력된 문자열을 enum 값으로 변환
+                Location.TownNames selectedTown = Location.TownNames.fromString(townName);
+                // 매핑 해둔 enum 값으로 변환한ㄴ다.
+
+                // 변환된 enum 값을 사용
+                System.out.println(pokemon.name + "이(가) " + skillName + "을(를) 사용하여 " +
+                                    nowLocation +"에서 "+ selectedTown + "으로 이동합니다!");
+
+
+                // Location 클래스에 트레이너 위치 저장 (예시)
+                Location location = new Location();
+                location.setTrainerLocation(selectedTown);
+                if(selectedTown.equals("달맞이동산")){
+                    PokeEvolution.ArriveEvolve(this);
+                }
+            } catch (IllegalArgumentException e) {
+                System.out.println("잘못된 마을 이름입니다: " + townName);
+            }
         } else {
             System.out.println(pokemon.name + "은(는) " + skillName + "을(를) 사용할 수 없습니다.");
         }

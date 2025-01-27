@@ -1,6 +1,7 @@
 package pokemon;
 
 import java.util.ArrayList;
+import java.util.Scanner;
 
 public class Trainer {
     String name;
@@ -31,6 +32,23 @@ public class Trainer {
             System.out.println(pokemon.name + " 을(를)" + this.name + " pc에 저장합니다.");
             myPokemonPc.add(pokemon);
             return false; // 추가 실패
+        }
+    }
+
+    public void tradePokemon(Trainer trainer) {
+        Scanner myInput = new Scanner(System.in);
+        // to String 을 오버라이딩하여 나와 상대의 포켓몬을 보여주는것이 좋아보임
+        System.out.print("교환할 나의 포켓몬 번호 : ");
+        int myChoiceNum = myInput.nextInt();
+        System.out.print("교환할 상대의 포켓몬 번호 : ");
+        int yourChoiceNum = myInput.nextInt();
+        if (myChoiceNum > 0 && yourChoiceNum > 0 && myChoiceNum < myPokemon.size() + 1 && yourChoiceNum < trainer.myPokemon.size() + 1) {
+            System.out.println(this.getName() + " 의 " + myPokemon.get(myChoiceNum-1).name + " 는(은) " + trainer.myPokemon.get(myChoiceNum-1).name + " 로 교환되었다!");
+            Pokemon tmpPokemon = myPokemon.get(myChoiceNum - 1); // 내 포켓몬을 임시저장
+            myPokemon.set(myChoiceNum - 1, trainer.myPokemon.get(yourChoiceNum - 1)); // 내 포켓몬을 상대 포켓몬으로 변경
+            trainer.myPokemon.set(yourChoiceNum - 1, tmpPokemon); // 상대 포켓몬을 내 포켓몬으로 변경
+        } else {
+            System.out.println("잘못된 입력입니다.");
         }
     }
 

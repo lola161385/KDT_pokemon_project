@@ -11,14 +11,16 @@ public class Pokemon {
     Map<String, Skill> Pskill;  // 스킬을 Map으로 관리
     int level;
     int hp;
+    boolean isEvolved;
 
-    public Pokemon(String name, ArrayList<String> Ptype, String category, Map<String, Skill> Pskill, int level, int hp) {
+    public Pokemon(String name, ArrayList<String> Ptype, String category, Map<String, Skill> Pskill, int level, int hp, boolean isEvolved) {
         this.name = name;
         this.Ptype = Ptype;
         this.category = category;
         this.Pskill = Pskill;
         this.level = level;
         this.hp = hp;
+        this.isEvolved = false;
     }
 
     // 스킬 사용 메서드
@@ -45,6 +47,10 @@ public class Pokemon {
         return Pskill.get(skillName);
     }
 
+    public boolean isEvolved() {
+        return isEvolved;
+    }
+
     // 레벨 업 메서드
     public void levelUp() {
         if (this.level < 100) {
@@ -54,5 +60,19 @@ public class Pokemon {
             System.out.println(this.name + "의 레벨은 이미 최고단계입니다 ");
         }
         PokeEvolution.checkAndEvolve(this);
+    }
+
+    // 진화 메서드
+    public void evolve(boolean isAtMoonlightGarden) {
+        if (!isEvolved) {
+            if (isAtMoonlightGarden) {
+                isEvolved = true;
+                System.out.println(name + "이(가) 달맞이 동산에서 진화했습니다!");
+            } else {
+                System.out.println(name + "은(는) 달맞이 동산에 도착하지 않아 아직 진화할 수 없습니다.");
+            }
+        } else {
+            System.out.println(name + "은(는) 이미 진화한 포켓몬입니다.");
+        }
     }
 }

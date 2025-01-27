@@ -41,10 +41,10 @@ public class Main {
             arseousSkills.put("몸통박치기", bodyAttack);
             arseousSkills.put("바위깨기", stoneBrake);
 
-            Pokemon pikachu1 = new Pokemon("피카츄", Pokedex.PokedexData.getTypes("피카츄"), Pokedex.PokedexData.getCategory("피카츄"), pikachuSkills, 45, 450);
-            Pokemon lizard1 = new Pokemon("리자드", Pokedex.PokedexData.getTypes("리자드"), Pokedex.PokedexData.getCategory("리자드"), lizardSkills, 79, 790);
-            Pokemon lizard2 = new Pokemon("리자드", Pokedex.PokedexData.getTypes("리자드"), Pokedex.PokedexData.getCategory("리자드"), lizardSkills, 30, 300);
-            Pokemon arseous = new Pokemon("아르세우스", Pokedex.PokedexData.getTypes("아르세우스"), Pokedex.PokedexData.getCategory("아르세우스"), arseousSkills, 100, 1000);
+            Pokemon pikachu1 = new Pokemon("피카츄", Pokedex.PokedexData.getTypes("피카츄"), Pokedex.PokedexData.getCategory("피카츄"), pikachuSkills, 45, 450,false);
+            Pokemon lizard1 = new Pokemon("리자드", Pokedex.PokedexData.getTypes("리자드"), Pokedex.PokedexData.getCategory("리자드"), lizardSkills, 79, 790,false);
+            Pokemon lizard2 = new Pokemon("리자드", Pokedex.PokedexData.getTypes("리자드"), Pokedex.PokedexData.getCategory("리자드"), lizardSkills, 30, 300,false);
+            Pokemon arseous = new Pokemon("아르세우스", Pokedex.PokedexData.getTypes("아르세우스"), Pokedex.PokedexData.getCategory("아르세우스"), arseousSkills, 100, 1000,false);
 
             // 4. 트레이너가 포켓몬 소유
             trainer1.addPokemon(pikachu1); // Trainer 클래스의 addPokemon 메서드 사용
@@ -119,6 +119,12 @@ public class Main {
             // 다른 마을로 이동
             System.out.println("\n=== 다른 마을로 이동 ===");
             trainer1.moveToAnotherTown(pikachu1, "파도타기");
+
+            // 달맞이 동산에 도착하여 포켓몬 진화 시도
+            System.out.println("\n=== 달맞이 동산에서 포켓몬 진화 시도 ===");
+            boolean isAtMoonlightGarden = true; // 달맞이 동산에 도착했다고 가정
+            pikachu1.evolve(isAtMoonlightGarden); // 피카츄 진화 시도
+            lizard1.evolve(isAtMoonlightGarden);  // 리자드 진화 시도
 
         } catch (Exception e) {
             System.err.println(e.getMessage());

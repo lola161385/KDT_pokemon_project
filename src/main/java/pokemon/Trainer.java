@@ -2,6 +2,7 @@ package pokemon;
 
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.UUID;
 
 public class Trainer {
     String name;
@@ -118,12 +119,29 @@ public class Trainer {
     }
 
     // 다른 마을로 이동하는 메서드
-    public void moveToAnotherTown(Pokemon pokemon, String skillName) {
-        Skill skill = pokemon.getSkill(skillName);
-        if (skill instanceof VisionSkill && ((VisionSkill) skill).canCrossOcean()) {
-            System.out.println(pokemon.name + "이(가) " + skillName + "을(를) 사용하여 다른 마을로 이동합니다!");
-        } else {
-            System.out.println(pokemon.name + "은(는) " + skillName + "을(를) 사용할 수 없습니다.");
+    // 마을로 이동하는 메서드
+    private TrainerLocation trainerLocation;
+    public Trainer(TrainerLocation trainerLocation) {
+        this.trainerLocation = trainerLocation;
+    }
+
+    public void moveAnotherTown(String townName, Pokemon pokemon, String skillName) {
+        try {
+            // 문자열을 enum 값으로 변환
+            TrainerLocation.TownNames newLocation = TrainerLocation.TownNames.valueOf(townName);
+
+            // trainerLocation 업데이트
+            trainerLocation.setTrainerLocation(newLocation);
+
+            // 스킬 확인 및 이동 로직
+            Skill skill = pokemon.getSkill(skillName);
+            if (skill instanceof VisionSkill && ((VisionSkill) skill).canCrossOcean()) {
+                System.out.println(pokemon.name + "이(가) " + skillName + "을(를) 사용하여 " + townName + "으로 이동합니다!");
+            } else {
+                System.out.println(pokemon.name + "은(는) " + skillName + "을(를) 사용할 수 없습니다.");
+            }
+        } catch (IllegalArgumentException e) {
+            System.out.println("잘못된 마을 이름입니다: " + townName);
         }
     }
 

@@ -118,7 +118,7 @@ public class Main {
 
             // 다른 마을로 이동
             System.out.println("\n=== 다른 마을로 이동 ===");
-            trainer1.moveToAnotherTown(pikachu1, "파도타기");
+            trainer1.moveAnotherTown("Kanto", ,"파도타기"); //
 
         } catch (Exception e) {
             System.err.println(e.getMessage());

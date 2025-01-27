@@ -127,8 +127,14 @@ public class Trainer {
 
     public void moveAnotherTown(String townName, Pokemon pokemon, String skillName) {
         try {
+            Scanner scan = new Scanner(System.in);
+            System.out.println("이동하고자 하는 마을을 입력하세요 : " +
+                    "현재 위치 : " + trainerLocation.getTrainerLocation() + "/n 입력 예시 :" +
+                    "Kanto, Sinnoh, Hana, MoonRiseGarden"
+            );
+            String town = scan.nextLine();
             // 문자열을 enum 값으로 변환
-            TrainerLocation.TownNames newLocation = TrainerLocation.TownNames.valueOf(townName);
+            TrainerLocation.TownNames newLocation = TrainerLocation.TownNames.valueOf(town);
 
             // trainerLocation 업데이트
             trainerLocation.setTrainerLocation(newLocation);

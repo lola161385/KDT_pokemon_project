@@ -43,10 +43,15 @@ public class Trainer {
         System.out.print("교환할 상대의 포켓몬 번호 : ");
         int yourChoiceNum = myInput.nextInt();
         if (myChoiceNum > 0 && yourChoiceNum > 0 && myChoiceNum < myPokemon.size() + 1 && yourChoiceNum < trainer.myPokemon.size() + 1) {
-            System.out.println(this.getName() + " 의 " + myPokemon.get(myChoiceNum-1).name + " 는(은) " + trainer.myPokemon.get(myChoiceNum-1).name + " 로 교환되었다!");
+            System.out.println(this.getName() + " 의 " + myPokemon.get(myChoiceNum-1).name + " 는(은) " + trainer.myPokemon.get(yourChoiceNum-1).name + " 로 교환되었다!");
             Pokemon tmpPokemon = myPokemon.get(myChoiceNum - 1); // 내 포켓몬을 임시저장
             myPokemon.set(myChoiceNum - 1, trainer.myPokemon.get(yourChoiceNum - 1)); // 내 포켓몬을 상대 포켓몬으로 변경
             trainer.myPokemon.set(yourChoiceNum - 1, tmpPokemon); // 상대 포켓몬을 내 포켓몬으로 변경
+
+            System.out.println("\n======== 교환 후 포켓몬 정보 ========");
+            System.out.println(this.toString());
+            System.out.println(trainer.toString());
+            System.out.println("=================================");
         } else {
             System.out.println("잘못된 입력입니다.");
         }
@@ -71,6 +76,7 @@ public class Trainer {
     }
 
     // Trainer 정보 출력
+    @Override
     public String toString() {
         int pcnt = 1;
         StringBuilder sb = new StringBuilder();
@@ -91,6 +97,25 @@ public class Trainer {
         }
         return sb.toString();
     }
+
+    // 소유 포켓몬 정보만 출력
+    public String getOwnedPokemonInfo() {
+        int pcnt = 1;
+        StringBuilder sb = new StringBuilder();
+        sb.append("=== ").append(this.name).append("의 포켓몬 목록 ===");
+        if (myPokemon.isEmpty()) {
+            sb.append("\n보유한 포켓몬이 없습니다.");
+        } else {
+            for (Pokemon pokemon : myPokemon) {
+                sb.append("\n").append(pcnt++).append(". ").append(pokemon.name)
+                        .append(", 레벨: ").append(pokemon.level)
+                        .append(", HP: ").append(pokemon.hp)
+                        .append(", 보유 스킬: ").append(pokemon.getSkillNames());
+            }
+        }
+        return sb.toString();
+    }
+
 
     // 전투 시작 메서드
     public void startBattle(Trainer opponent) {
